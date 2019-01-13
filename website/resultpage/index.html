@@ -1,0 +1,33 @@
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+    <link rel="stylesheet" href="../bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body onload="updateSize()" style="overflow: auto;">
+    <div id="app">
+        <table class="table is-striped is-fullwidth" v-if="resultsFound">
+            <tr>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Seed</th>
+                <th>Leech</th>
+                <th>Downloads</th>
+                <th></th>
+            </tr>
+            <tr v-for="result in results">
+                <td>{{result.text}}</td>
+                <td>{{result.len}}</td>
+                <td>{{result.s}}</td>
+                <td>{{result.l}}</td>
+                <td>{{result.c}}</td>
+                <td>
+                    <span class="icon">
+                        <a style="color: hsl(171, 100%, 41%)" v-bind:href="'magnet:?xt=urn:btih:' + result.id + '&tr=&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce'"><i class="fas fa-magnet"></i></a>
+                    </span>
+                </td>
+            </tr>
+        </table>
+        <p v-if="!resultsFound">Ready.</p>
+    </div>
+    <script src="main.js"></script>
+</body>

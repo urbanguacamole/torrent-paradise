@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Torrent Paradise</title>
+    <link rel="stylesheet" href="bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>#resultPage {width: 100%;}</style>
+</head>
+
+<body onload="loadMeta('generated/inx.meta.json')">
+    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="is-light navbar-item" href="https://torrent-paradise.ml">
+                <i class="fas fa-sun"></i>
+            </a>
+            <a class="navbar-item" href="about.html">
+                About
+            </a>
+            <a class="navbar-item" href="ipfs.html">
+                IPFS
+            </a>
+        </div>
+    </nav>
+    <br>
+    <div id="app" class="container">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type='text' id="searchbox" />
+            </div>
+            <div class="control">
+                <button class="button is-info" type="submit" onclick="searchTriggered()">Search</button>
+            </div>
+
+        </div>
+        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0"
+            seamless="seamless" v-bind:src="resultPage"></iframe>
+        <p v-if="showsearchbox">Last index update: {{indexTimestamp}}</p>
+    <script src="bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="view.js"></script>

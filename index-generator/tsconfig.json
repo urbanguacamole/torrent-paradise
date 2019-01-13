@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "target": "esnext",
+        "types": ["node"]
+    },
+    "files": ["main.ts"]
+}
