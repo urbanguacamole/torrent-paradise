@@ -7,3 +7,9 @@ window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event){
     app.resultPageHeight = event.data
 }
+
+document.getElementById('searchbox').onkeydown = function(event) {
+    if (event.keyCode == 13) {
+        searchTriggered()
+    }
+}
