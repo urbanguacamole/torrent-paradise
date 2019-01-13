@@ -1,33 +1,40 @@
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
     <link rel="stylesheet" href="../bulma.min.css">
+    <link rel="stylesheet" href="buefy.min.css">
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 </head>
+
 <body onload="updateSize()" style="overflow: auto;">
     <div id="app">
-        <table class="table is-striped is-fullwidth" v-if="resultsFound">
-            <tr>
-                <th>Name</th>
-                <th>Size</th>
-                <th>Seed</th>
-                <th>Leech</th>
-                <th>Downloads</th>
-                <th></th>
-            </tr>
-            <tr v-for="result in results">
-                <td>{{result.text}}</td>
-                <td>{{result.len}}</td>
-                <td>{{result.s}}</td>
-                <td>{{result.l}}</td>
-                <td>{{result.c}}</td>
-                <td>
+        <b-table v-if="resultsFound" class="is-fullwidth" :data="results" default-sort="s" default-sort-direction="desc"
+            :striped="true" :narrowed="true">
+            <template slot-scope="props">
+                <b-table-column field="text" label="Name">
+                    {{ props.row.text }}
+                </b-table-column>
+                <b-table-column field="len" label="Size">
+                    {{ props.row.len }}
+                </b-table-column>
+                <b-table-column field="s" label="Seed" numeric sortable>
+                    {{ props.row.s }}
+                </b-table-column>
+                <b-table-column field="l" label="Leech" numeric sortable>
+                    {{ props.row.l }}
+                </b-table-column>
+                <b-table-column field="c" label="Downloads" numeric sortable>
+                    {{ props.row.c }}
+                </b-table-column>
+                <b-table-column field="id" label=" " e>
                     <span class="icon">
-                        <a style="color: hsl(171, 100%, 41%)" v-bind:href="'magnet:?xt=urn:btih:' + result.id + '&tr=&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce'"><i class="fas fa-magnet"></i></a>
+                        <a style="color: hsl(171, 100%, 41%)" v-bind:href="'magnet:?xt=urn:btih:' + props.row.id + '&tr=&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce'">
+                            <i class="fas fa-magnet"></i>
+                        </a>
                     </span>
-                </td>
-            </tr>
-        </table>
-        <p v-if="!resultsFound">Ready.</p>
+                </b-table-column>
+            </template>
+        </b-table>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/buefy/dist/components/table"></script>
     <script src="main.js"></script>
 </body>
