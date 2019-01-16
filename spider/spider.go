@@ -25,7 +25,7 @@ func main() {
 
 	db := initDb()
 
-	w := dht.NewWire(65536, 1024, 256)
+	w := dht.NewWire(65536, 2048, 512)
 	go handleResponses(w, db)
 	go w.Run()
 
