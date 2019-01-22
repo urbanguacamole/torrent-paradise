@@ -1,5 +1,6 @@
 include head.html
 .container.content
-    h1 Remove ads and access the index even when the main server is down
-    p Because torrent paradise needs no single server, only static files, you can download the index and use it locally, just like you download a torrent.
-    p To use it without the centralized server, use #[a(href="https://ipfs.io") IPFS]. Address in IPFS is #[a(href="https://cloudflare-ipfs.com/ipns/torrent-paradise.ml") /ipns/torrent-paradise.ml].
+    h1 Remove ads and access the index even when the public website is down
+    p With IPFS (see the #[a(href="https://ipfs.io") official website]), a copy of the site and the whole index can be distributed just like a torrent. When you open it via IPFS, your IPFS node fetches the parts of the index and website it needs from the network. The public website is simply a public IPFS node.
+    p To use it without the public server, use #[a(href="https://ipfs.io") IPFS]. Address in IPFS is #[a(href="https://cloudflare-ipfs.com/ipns/torrent-paradise.ml") /ipns/torrent-paradise.ml].
+    p Just like all torrents need seeders, Torrent Paradise needs IPFS nodes pinning it. Please run #[code ipfs pin add /ipns/torrent-paradise.ml] on your IPFS node to help host the site. Rerun this command ideally every day to seed the newest version of the index.

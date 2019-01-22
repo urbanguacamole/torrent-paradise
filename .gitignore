@@ -4,4 +4,5 @@ db.sqlite3
 dump.sql
 ipfs.html
 about.html
+copyright.html
 torrent_dump_full.csv.gz
