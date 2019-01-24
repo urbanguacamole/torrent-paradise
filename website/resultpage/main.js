@@ -2,27 +2,28 @@ app = new Vue({
     el: '#app',
     data: {
         results: undefined,
-        resultsFound: false
+        resultsFound: false,
+        showProgress: false,
+        progress: 0
     }
 })
 
 window.onmessage = function(e){
     if (e.data.type == "results") {
         let results = JSON.parse(e.data.results)
-        results = results.sort((a,b) => {
-            if(a.s > b.s){
-                return -1;
-            }else if(a.s == b.s){
-                return 0;
-            }else{
-                return 1;
-            }
-        })
         app.results = results.map((result) => {
             result.len = formatBytes(result.len)
             return result
         })
         app.resultsFound = true
+        setTimeout(updateSize,1)
+    } else if (e.data.type == "progress") {
+        if(e.data.progress == 1){
+            app.showProgress = false
+        }else{
+            app.showProgress = true
+        }
+        app.progress = e.data.progress * 100
         setTimeout(updateSize,1)
     }
 };

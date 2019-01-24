@@ -6,8 +6,9 @@
 
 <body onload="updateSize()" style="overflow: auto;">
     <div id="app">
+        <progress v-if="showProgress" class="progress is-info" v-bind:value="progress" max="100">0 %</progress>
         <b-table v-if="resultsFound" class="is-fullwidth" :data="results" default-sort="s" default-sort-direction="desc"
-            :striped="true" :narrowed="true">
+            :striped="true" :paginated="true" :narrowed="true">
             <template slot-scope="props">
                 <b-table-column field="text" label="Name" sortable>
                     <span v-bind:title="props.row.text">{{ props.row.text }}</span>
