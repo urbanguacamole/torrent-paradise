@@ -1,0 +1,11 @@
+[Unit]
+Description=nextgen DHT spider
+Requires=postgresql
+
+[Service]
+User=nextgen
+WorkingDirectory=/home/nextgen
+ExecStart=/home/nextgen/spider
+
+[Install]
+WantedBy=multi-user.target

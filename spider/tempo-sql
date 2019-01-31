@@ -1,0 +1,5 @@
+script to see how fast the spiders are adding new torrents
+
+select added::date, count(infohash)
+from torrent
+group by added::date;

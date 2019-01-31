@@ -5,13 +5,19 @@ nextgen@ipfsearch: ~$ pg_dump --data-only --inserts nextgen > dump.sql
 
 # remove header from dump (manually)
 
-$ sed -i -e 's/public.peercount/peercount/g' dump.sql
-$ sed -i -e 's/public.torrent/torrent/g' dump.sql
+sed -i -e 's/public.peercount/peercount/g' dump.sql
+sed -i -e 's/public.torrent/torrent/g' dump.sql
+tail -n +2 dump.sql > newdump.sql
+mv newdump.sql dump.sql
 gzip dump.sql
 
 # copy dump.sql.gz to index-generator directory, unzip
 
-onda@localhost $ sqlite3 db.sqlite3
+user@localhost $ scp user@server:/home/nextgen/dump.sql.gz .
+$ sqlite3 db.sqlite3
+
 sqlite> CREATE TABLE peercount ( infohash char(40), tracker varchar, seeders int, leechers int, completed int, scraped timestamp);
 sqlite> CREATE TABLE torrent( infohash char(40), name varchar, length bigint, added timestamp);
+sqlite> BEGIN;
 sqlite> .read dump.sql
+sqlite> END;

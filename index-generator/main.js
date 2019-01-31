@@ -13,7 +13,7 @@ db.each("SELECT torrent.infohash, torrent.name, torrent.length, torrent.added, p
 }, function (err, num) {
     console.log("Read all " + i + " records.");
     console.log("Persisting " + num + " records.");
-    indexer.persist("generated/inv", "generated/inx", "@tensojka", "nextgen torrent search", "todo", 1000);
+    indexer.persist("../website/generated/inv", "../website/generated/inx", "Urban Guacamole", "Torrent Paradise index", "", 1000);
 });
 class Torrent extends ipfsearch.Document {
     constructor(id, text, size, seeders, leechers, completed) {

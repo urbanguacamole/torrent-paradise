@@ -1,3 +1,7 @@
+/**
+ * This is the bundle.js used on ipfsearch.xyz, modified for the purposes of Torrent-Paradise. I edit the bundle directly to not have to fuck around w/ Typescript and Node.js
+ */
+
 class IndexFetcher {
     constructor() {
         this.combinedIndex = new Map();

@@ -15,7 +15,7 @@ db.each("SELECT torrent.infohash, torrent.name, torrent.length, torrent.added, p
 },function(err,num){
     console.log("Read all "+i+" records.")
     console.log("Persisting "+num+" records.")
-    indexer.persist("generated/inv", "generated/inx", "@tensojka", "nextgen torrent search","todo", 1000)
+    indexer.persist("generated/inv", "generated/inx", "", "Torrent Paradise torrent index","todo", 1000)
 })
 
 class Torrent extends ipfsearch.Document {
