@@ -1,6 +1,6 @@
 app = new Vue({
     el: '#app',
-    data: {showsearchbox: false, error: "", resultPage: "", resultPageHeight: 1} 
+    data: {showsearchbox: false, error: "", resultPage: "", resultPageHeight: 1, entries: -1} 
 })
 window.addEventListener("message", receiveMessage, false);
 

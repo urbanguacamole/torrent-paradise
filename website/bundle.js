@@ -142,6 +142,7 @@ async function loadMeta(metaURL) {
     app.showsearchbox = true;
     app.indexAuthor = meta.author;
     app.indexName = meta.name;
+    app.entries = meta.entries;
     let ts = new Date(meta.created);
     app.indexTimestamp = ts.getDate().toString() + "/" + (ts.getMonth()+1).toString() + "/" + ts.getFullYear().toString();
     if (meta.resultPage == undefined) {

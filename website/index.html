@@ -41,6 +41,7 @@
         <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0"
             seamless="seamless" v-bind:src="resultPage"></iframe>
         <p v-if="showsearchbox">Last index update: {{indexTimestamp}}</p>
+        <p v-if="showsearchbox">Torrents in index: {{entries}}</p>
     <script src="bundle.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="view.js"></script>

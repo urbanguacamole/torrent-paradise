@@ -14,17 +14,15 @@ echo "Preparing sqlite DB"
 sqlite3 index-generator/db.sqlite3 "CREATE TABLE peercount ( infohash char(40), tracker varchar, seeders int, leechers int, completed int, scraped timestamp, ws boolean);"
 sqlite3 index-generator/db.sqlite3 "CREATE TABLE torrent( infohash char(40), name varchar, length bigint, added timestamp);"
 echo """Do the following: 
-$ sqlite3 index-generator/db.sqlite3
 
 sqlite> BEGIN;
 sqlite> .read index-generator/dump.sql
 sqlite> END;"""
-bash
+sqlite3 index-generator/db.sqlite3
 echo "Generating index now..."
 (cd index-generator; node --max-old-space-size=10000 main.js)
-echo "Check meta.json, add resultPage:'resultpage', fix invURLBase, inxURLBase"
-nano website/generated/inx.meta.json
+python3 index-generator/fix-metajson.py website/generated/inx
+
 echo "Uploading website"
 cd website
-scp -r . user@server:/www/torrent-paradise.ml
-echo "Finished uploading website to server."
+scp -r . root@server:/www/torrent-paradise.ml #todo use rsync https://superuser.com/a/1405020/373473
