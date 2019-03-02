@@ -1,9 +1,7 @@
 generated/
 node_modules/
-db.sqlite3
-dump.sql
+dump.csv
 ipfs.html
 about.html
 copyright.html
 torrent_dump_full.csv.gz
-index-generator/main.js

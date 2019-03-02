@@ -19,7 +19,7 @@ def count_torrents_in_index(inxpath, blocksize):
 meta = json.load(io.open(sys.argv[1]+".meta.json","r"))
 meta["resultPage"] = "resultpage"
 meta["entries"] = count_torrents_in_index(sys.argv[1],1000)
-meta["inxUrlBase"] = "website/generated/inx"
-meta["invUrlBase"] = "website/generated/inv"
+meta["inxURLBase"] = "generated/inx"
+meta["invURLBase"] = "generated/inv"
 
 json.dump(meta,io.open(sys.argv[1]+".meta.json", "w"))

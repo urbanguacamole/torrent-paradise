@@ -4,11 +4,10 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "@types/node": "^10.12.18",
-    "ipfsearch-index": "^2.5.1",
-    "pg": "^7.8.0",
-    "sqlite3": "^4.0.6",
-    "typescript": "^3.2.2"
+    "@types/node": "^10.12.29",
+    "csv-parse": "^4.3.3",
+    "ipfsearch-index": "^2.5.5",
+    "typescript": "^3.3.3333"
   },
   "devDependencies": {},
   "scripts": {
