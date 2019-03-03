@@ -12,8 +12,8 @@ import (
 )
 
 const retryLimit = 3
-const waitTime = 500 // in ms
-var trackers = [3]string{"udp://tracker.coppersurfer.tk:6969", "udp://tracker.internetwarriors.net:1337", "udp://tracker.pirateparty.gr:6969"}
+const waitTime = 250 // in ms
+var trackers = [3]string{"udp://tracker.coppersurfer.tk:6969", "udp://exodus.desync.com:6969", "udp://tracker.pirateparty.gr:6969"}
 
 func main() {
 	db := initDb()
@@ -140,7 +140,7 @@ func initDb() *sql.DB {
 		log.Fatal(err)
 	}
 
-	/*_, err = db.Exec(`CREATE TYPE tracker AS ENUM ('udp://tracker.coppersurfer.tk:6969', 'udp://tracker.internetwarriors.net:1337', 'udp://tracker.opentrackr.org:1337', 'udp://tracker.pirateparty.gr:6969')`)
+	/*_, err = db.Exec(`CREATE TYPE tracker AS ENUM ('udp://tracker.coppersurfer.tk:6969', 'udp://exodus.desync.com:6969', 'udp://tracker.pirateparty.gr:6969')`)
 	if err != nil {
 		log.Fatal(err)
 	}*/
