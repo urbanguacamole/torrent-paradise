@@ -1,18 +1,24 @@
 const ipfsearch = require("ipfsearch-index");
-const sqlite3 = require('sqlite3');
-const db = new sqlite3.Database('db.sqlite3');
+const parse = require("csv-parse");
+const fs = require("fs");
 let indexer = new ipfsearch.Indexer();
 let i = 0;
-db.each("SELECT torrent.infohash, torrent.name, torrent.length, torrent.added, peercount.seeders, peercount.leechers, peercount.completed FROM torrent INNER JOIN peercount on torrent.infohash = peercount.infohash ORDER BY peercount.scraped DESC", function (err, row) {
-    if (err)
-        console.error(err);
-    if (row["seeders"] > 0) {
-        indexer.addToIndex(new Torrent(row["infohash"], row["name"], row["length"], row["seeders"], row["leechers"], row["completed"]));
+const parser = parse();
+fs.createReadStream("dump.csv").pipe(parser);
+parser.on('readable', function () {
+    let record;
+    while (record = parser.read()) {
+        if (parseInt(record[3]) > 0) {
+            indexer.addToIndex(new Torrent(record[0], record[1], parseInt(record[2]), parseInt(record[3]), parseInt(record[4]), parseInt(record[5])));
+            i++;
+        }
     }
-    i++;
-}, function (err, num) {
-    console.log("Read all " + i + " records.");
-    console.log("Persisting " + num + " records.");
+});
+parser.on('error', function (err) {
+    console.error(err.message);
+});
+parser.on('end', function () {
+    console.log("Read all " + i + " records. Persisting.");
     indexer.persist("../website/generated/inv", "../website/generated/inx", "Urban Guacamole", "Torrent Paradise index", "", 1000);
 });
 class Torrent extends ipfsearch.Document {
