@@ -1,5 +1,5 @@
 -- SELECT for the index-ready materialized view "fresh"
-select distinct on (infohash) trackerdata.infohash, torrent.name, torrent.length, seeders, leechers, completed, tracker from trackerdata inner join torrent on (trackerdata.infohash = torrent.infohash) order by infohash, scraped asc, seeders desc;
+select distinct on (infohash) trackerdata.infohash, torrent.name, torrent.length, trackerdata.seeders, trackerdata.leechers, trackerdata.completed, tracker from trackerdata inner join torrent on (trackerdata.infohash = torrent.infohash) where torrent.copyrighted != 't' order by infohash, scraped asc, seeders desc;
 -- to create this view, run: create materialized view AS (paste from above)
 
 select sum(seeders),tracker from trackerdata group by tracker;

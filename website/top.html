@@ -8,10 +8,14 @@
     <title>Torrent Paradise</title>
     <link rel="stylesheet" href="assets/bulma.min.css">
     <script defer src="assets/fa.js"></script>
-    <style>#resultPage {width: 100%;}</style>
+    <style>
+        #resultPage {
+            width: 100%;
+        }
+    </style>
 </head>
 
-<body onload="loadMeta('generated/inx.meta.json')">
+<body>
     <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
             <a class="is-light navbar-item" href="index.html">
@@ -32,21 +36,26 @@
         </div>
     </nav>
     <br>
-    <div id="app" class="container">
-        <div class="field has-addons">
-            <div class="control is-expanded">
-                <input class="input" type='text' id="searchbox" />
-            </div>
-            <div class="control">
-                <button class="button is-info" type="submit" onclick="searchTriggered()">Search</button>
-            </div>
-
-        </div>
-        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0"
-            seamless="seamless" v-bind:src="resultPage"></iframe>
-        <p v-if="showsearchbox">Last index update: {{indexTimestamp}}</p>
-        <p v-if="showsearchbox">Torrents in index: {{entries}}</p>
+    <div id="app" class="container content">
+        <h1 class="title">Top torrents</h1>
+        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0" seamless="seamless" v-bind:src="resultPage"></iframe>
+        <script src="assets/vue-v2.6.8.js"></script>
+        <script src="view.js"></script>
     </div>
-    <script src="bundle.js"></script>
-    <script src="assets/vue-v2.6.8.js"></script>
-    <script src="view.js"></script>
+    <script>app.resultPage = "resultpage"
+
+
+        fetch("generated/top.json").then((s) => {
+            return s.text()
+        }).then((top) => {
+            let resultPageIframe = document.getElementById("resultPage");
+            resultPageIframe.onload = () => {
+                resultPageIframe.contentWindow.postMessage({
+                    type: "results",
+                    results: top
+                }, '*');
+            }
+        })</script>
+</body>
+
+</html>
