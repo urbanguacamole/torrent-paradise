@@ -34,7 +34,7 @@ What I did first after getting the server up and running was importing the TPB d
 
 ## Generate the index
 
-See `update-index.sh`. Before running it for the first time, you should create the materialized view *fresh*. For instructions, see the first paragraph of snippets.sql.
+See `update-index.sh`.
 
 ## Spider the DHT
 
@@ -42,9 +42,7 @@ Run `go build` in spider/ to compile and scp the binary it to the server. You ca
 
 ## Scraping trackers for seed/leech data
 
-Run `go build` in tracker-scraper/ to compile and scp the binary it to the server. Run it every time you want to fetch new seed/leech data for all torrents.
-
-`tracker-scraper` saves the results into the *trackerdata* table in database.
+Run `go build` in seedleech-daemon/ to compile and scp the binary it to the server. You can use the systemd service file in `seedleech-daemon/seedleech.service`.
 
 
 # Contributing

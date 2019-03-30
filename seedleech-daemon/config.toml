@@ -1,0 +1,6 @@
+trackers = ["udp://tracker.coppersurfer.tk:6969", "udp://tracker.pirateparty.gr:6969", "udp://tracker.leechers-paradise.org:6969/announce", "udp://tracker.internetwarriors.net:1337/announce"]
+waitTime = "500ms"
+logInterval = "5m"
+
+categories = { 0 = "1440h", 1 = "720h", 3 = "240h", 10 = "120h", 100 = "24h", 1000 = "12h", 2000 = "6h", 3000 = "3h"}
+    

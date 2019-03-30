@@ -1,0 +1,12 @@
+[Unit]
+Description=nextgen seedleech daemon
+Requires=postgresql
+
+[Service]
+User=nextgen
+WorkingDirectory=/home/nextgen
+ExecStart=/home/nextgen/seedleech-daemon
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
