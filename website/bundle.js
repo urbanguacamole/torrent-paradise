@@ -1,46 +1,41 @@
-/**
- * This is the bundle.js used on ipfsearch.xyz, modified for the purposes of Torrent-Paradise. I edit the bundle directly to not have to fuck around w/ Typescript and Node.js
- */
-
 class IndexFetcher {
     constructor() {
-        this.combinedIndex = new Map();
-        /**
-         * key is shardid, value is true if the shard has been fetched and incorporated into the index var
-         */
-        this.shardsFetched = new Map();
-    }
-    /**
-     * Fetch shard and incorporate it into the index.
-     */
-    async fetchShard(shardid) {
-        if (this.shardsFetched.has(shardid)) {
-            console.debug("not needing to fetch shard " + shardid);
-            return;
+            this.combinedIndex = new Map();
+            /**
+             * key is shardid, value is true if the shard has been fetched and incorporated into the index var
+             */
+            this.shardsFetched = new Map();
         }
-        console.debug("started fetching inx shard " + shardid);
-        this.shardsFetched.set(shardid, false);
-        let shard = await loadIndexFromURL(meta.inxURLBase + shardid.toString());
-        for (let i of shard.keys()) {
-            if (!inxFetcher.combinedIndex.has(i)) {
-                inxFetcher.combinedIndex.set(i, shard.get(i));
+        /**
+         * Fetch shard and incorporate it into the index.
+         */
+    async fetchShard(shardid) {
+            if (this.shardsFetched.has(shardid)) {
+                console.debug("not needing to fetch shard " + shardid);
+                return;
             }
-            else {
-                //console.debug("this is weird, we fetched a token twice.")
-                //This is not weird if you're on firefox, bc there, the first key of a set is always an empty string.
-                if (i != "") {
-                    console.warn("srsly weird");
+            console.debug("started fetching inx shard " + shardid);
+            this.shardsFetched.set(shardid, false);
+            let shard = await loadIndexFromURL(meta.inxURLBase + shardid.toString());
+            for (let i of shard.keys()) {
+                if (!inxFetcher.combinedIndex.has(i)) {
+                    inxFetcher.combinedIndex.set(i, shard.get(i));
+                } else {
+                    //console.debug("this is weird, we fetched a token twice.")
+                    //This is not weird if you're on firefox, bc there, the first key of a set is always an empty string.
+                    if (i != "") {
+                        console.warn("srsly weird");
+                    }
                 }
             }
+            console.debug("shard " + shardid + " fetched!");
+            inxFetcher.shardsFetched.set(shardid, true);
         }
-        console.debug("shard " + shardid + " fetched!");
-        inxFetcher.shardsFetched.set(shardid, true);
-    }
-    /**
-     * Gets shardid that contains a given token/docid. Needs to have partMap fetched.
-     * @param token
-     * @return shardid
-     */
+        /**
+         * Gets shardid that contains a given token/docid. Needs to have partMap fetched.
+         * @param token
+         * @return shardid
+         */
     getIndexFor(token) {
         let needle = 0;
         while (meta.inxsplits[needle] < token) {
@@ -48,46 +43,44 @@ class IndexFetcher {
         }
         if (needle !== 0) {
             return needle - 1;
-        }
-        else
+        } else
             return needle;
     }
 }
 class InvertedIndexFetcher extends IndexFetcher {
     constructor() {
-        super(...arguments);
-        this.combinedInvIndex = new Map();
-    }
-    /**
-     * Fetch shard and incorporate it into the index.
-     */
-    async fetchShard(shardid) {
-        if (this.shardsFetched.has(shardid)) {
-            return;
+            super(...arguments);
+            this.combinedInvIndex = new Map();
         }
-        console.debug("started fetching invinx shard " + shardid);
-        this.shardsFetched.set(shardid, false);
-        let shard = await loadInvertedIndexFromURL(meta.invURLBase + shardid.toString());
-        for (let i of shard.keys()) {
-            if (!invinxFetcher.combinedInvIndex.has(i)) {
-                invinxFetcher.combinedInvIndex.set(i, shard.get(i));
+        /**
+         * Fetch shard and incorporate it into the index.
+         */
+    async fetchShard(shardid) {
+            if (this.shardsFetched.has(shardid)) {
+                return;
             }
-            else {
-                //console.debug("this is weird, we fetched a token twice.")
-                //This is not weird if you're on firefox, bc there, the first key of a set is always an empty string.
-                if (i != "") {
-                    console.warn("srsly weird");
+            console.debug("started fetching invinx shard " + shardid);
+            this.shardsFetched.set(shardid, false);
+            let shard = await loadInvertedIndexFromURL(meta.invURLBase + shardid.toString());
+            for (let i of shard.keys()) {
+                if (!invinxFetcher.combinedInvIndex.has(i)) {
+                    invinxFetcher.combinedInvIndex.set(i, shard.get(i));
+                } else {
+                    //console.debug("this is weird, we fetched a token twice.")
+                    //This is not weird if you're on firefox, bc there, the first key of a set is always an empty string.
+                    if (i != "") {
+                        console.warn("srsly weird");
+                    }
                 }
             }
+            console.debug("invinx shard " + shardid + " fetched!");
+            invinxFetcher.shardsFetched.set(shardid, true);
         }
-        console.debug("invinx shard " + shardid + " fetched!");
-        invinxFetcher.shardsFetched.set(shardid, true);
-    }
-    /**
-     * Gets shardid that contains a given token/docid. Needs to have partMap fetched.
-     * @param token
-     * @return shardid
-     */
+        /**
+         * Gets shardid that contains a given token/docid. Needs to have partMap fetched.
+         * @param token
+         * @return shardid
+         */
     getIndexFor(token) {
         let needle = 0;
         while (meta.invsplits[needle] < token) {
@@ -95,8 +88,7 @@ class InvertedIndexFetcher extends IndexFetcher {
         }
         if (needle !== 0) {
             return needle - 1;
-        }
-        else
+        } else
             return needle;
     }
 }
@@ -106,12 +98,12 @@ var meta;
 var app;
 let ipfsGatewayURL;
 const NUMRESULTS = 30;
+
 function onLoad() {
     let params = new URLSearchParams(location.search);
     if (params.get("index")) {
-        loadMeta(params.get("index")).then(function () { document.getElementById("app").style.visibility = ""; });
-    }
-    else {
+        loadMeta(params.get("index")).then(function() { document.getElementById("app").style.visibility = ""; });
+    } else {
         document.getElementById("app").style.visibility = "";
     }
 }
@@ -119,15 +111,13 @@ async function loadMeta(metaURL) {
     let response;
     if (metaURL.startsWith("/ipfs/") || metaURL.startsWith("/ipns/")) {
         response = await fetch((await getIpfsGatewayUrlPrefix()) + metaURL);
-    }
-    else {
+    } else {
         response = await fetch(metaURL);
     }
     const json = await response.text();
     try {
         meta = JSON.parse(json);
-    }
-    catch (e) {
+    } catch (e) {
         app.error = "Unable to find index at " + metaURL;
         return;
     }
@@ -144,16 +134,13 @@ async function loadMeta(metaURL) {
     app.indexName = meta.name;
     app.entries = meta.entries;
     let ts = new Date(meta.created);
-    app.indexTimestamp = ts.getDate().toString() + "/" + (ts.getMonth()+1).toString() + "/" + ts.getFullYear().toString();
+    app.indexTimestamp = ts.getDate().toString() + "/" + (ts.getMonth() + 1).toString() + "/" + ts.getFullYear().toString();
     if (meta.resultPage == undefined) {
-        //app.resultPage = "basicresultpage/" //default
-        app.resultPage = "/basicresultpage";
-    }
-    else {
+        app.resultPage = "basicresultpage";
+    } else {
         if (meta.resultPage.startsWith("/ipfs/") || meta.resultPage.startsWith("/ipns/")) {
             app.resultPage = (await getIpfsGatewayUrlPrefix()) + meta.resultPage;
-        }
-        else {
+        } else {
             app.resultPage = meta.resultPage;
         }
     }
@@ -165,7 +152,7 @@ async function loadMeta(metaURL) {
  *
  * Return format is http://ipfsgateway.tld(:port)
  * note the absence of a trailing slash.
-*/
+ */
 async function getIpfsGatewayUrlPrefix() {
     if (ipfsGatewayURL !== undefined) {
         return ipfsGatewayURL;
@@ -173,18 +160,14 @@ async function getIpfsGatewayUrlPrefix() {
     if (window.location.protocol === "https:") {
         if (await checkIfIpfsGateway("")) {
             ipfsGatewayURL = window.location.protocol + "//" + window.location.host;
-        }
-        else {
+        } else {
             app.error = "ipfsearch is currently being served from a HTTPS host that is not an IPFS node. This prevents it from using a local IPFS gateway. The node operator should fix this and run an ipfs gateway.";
         }
-    }
-    else if (await checkIfIpfsGateway("http://localhost:8080")) {
+    } else if (await checkIfIpfsGateway("http://localhost:8080")) {
         ipfsGatewayURL = "http://localhost:8080";
-    }
-    else if (await checkIfIpfsGateway("http://" + window.location.host)) {
+    } else if (await checkIfIpfsGateway("http://" + window.location.host)) {
         ipfsGatewayURL = "http://" + window.location.host;
-    }
-    else {
+    } else {
         app.error = "Loading of the index requires access to the IPFS network. We have found no running IPFS daemon on localhost. Please install IPFS from <a href='http://ipfs.io/docs/install'>ipfs.io</a> and refresh this page.";
         throw new Error("Couldn't get a IPFS gateway.");
     }
@@ -198,11 +181,11 @@ async function checkIfIpfsGateway(gatewayURL) {
     let response = await fetch(gatewayURL + "/ipfs/QmT78zSuBmuS4z925WZfrqQ1qHaJ56DQaTfyMUF7F8ff5o");
     if ((await response.text()).startsWith("hello world")) { //had to use startsWith bc \n on the end of the file
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
+
 function searchTriggered() {
     let searchbox = document.getElementById("searchbox");
     let querytokens = searchbox.value.split(" ");
@@ -212,6 +195,7 @@ function searchTriggered() {
     console.debug("searching for: " + querytokens.join(" "));
     searchFor(querytokens.join(" "));
 }
+
 function searchFor(query) {
     passProgressToResultpage(0);
     let runningFetches = [];
@@ -252,23 +236,19 @@ function searchFor(query) {
             resultIds = resultIds.filter((resultId) => {
                 if (candidates.get(resultId) != tokenizedquery.length) {
                     return false;
-                }
-                else {
+                } else {
                     return true;
                 }
             });
-        }
-        else { //sort them by relevance
+        } else { //sort them by relevance
             resultIds = resultIds.sort((a, b) => {
                 let ascore = candidates.get(a);
                 let bscore = candidates.get(b);
                 if (ascore > bscore) {
                     return -1;
-                }
-                else if (ascore > bscore) {
+                } else if (ascore > bscore) {
                     return 1;
-                }
-                else {
+                } else {
                     return 0;
                 }
             });
@@ -289,6 +269,7 @@ function searchFor(query) {
         });
     });
 }
+
 function passResultToResultpage(results) {
     let resultPageIframe = document.getElementById("resultPage");
     resultPageIframe.contentWindow.postMessage({
@@ -345,8 +326,7 @@ function filterCandidates(candidates, tokensInQuery) {
         }
         candidates = undefined;
         return filteredCandidates;
-    }
-    else {
+    } else {
         return candidates;
     }
 }
@@ -366,8 +346,7 @@ function getAllCandidates(query, index) {
         for (let j in result) {
             if (candidates.has(result[j])) {
                 candidates.set(result[j], candidates.get(result[j]) + 1); //if candidate already in set, increment the counter of how many times it appeared in the index for the query
-            }
-            else {
+            } else {
                 candidates.set(result[j], 1);
             }
         }
@@ -383,46 +362,48 @@ function getAllCandidates(query, index) {
 // see also http://www.tartarus.org/~martin/PorterStemmer
 // Release 1 be 'andargor', Jul 2004
 // Release 2 (substantially revised) by Christopher McKenzie, Aug 2009
-var stemmer = (function () {
+var stemmer = (function() {
     var step2list = {
-        "ational": "ate",
-        "tional": "tion",
-        "enci": "ence",
-        "anci": "ance",
-        "izer": "ize",
-        "bli": "ble",
-        "alli": "al",
-        "entli": "ent",
-        "eli": "e",
-        "ousli": "ous",
-        "ization": "ize",
-        "ation": "ate",
-        "ator": "ate",
-        "alism": "al",
-        "iveness": "ive",
-        "fulness": "ful",
-        "ousness": "ous",
-        "aliti": "al",
-        "iviti": "ive",
-        "biliti": "ble",
-        "logi": "log"
-    }, step3list = {
-        "icate": "ic",
-        "ative": "",
-        "alize": "al",
-        "iciti": "ic",
-        "ical": "ic",
-        "ful": "",
-        "ness": ""
-    }, c = "[^aeiou]", // consonant
-    v = "[aeiouy]", // vowel
-    C = c + "[^aeiouy]*", // consonant sequence
-    V = v + "[aeiou]*", // vowel sequence
-    mgr0 = "^(" + C + ")?" + V + C, // [C]VC... is m>0
-    meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$", // [C]VC[V] is m=1
-    mgr1 = "^(" + C + ")?" + V + C + V + C, // [C]VCVC... is m>1
-    s_v = "^(" + C + ")?" + v; // vowel in stem
-    return function (w) {
+            "ational": "ate",
+            "tional": "tion",
+            "enci": "ence",
+            "anci": "ance",
+            "izer": "ize",
+            "bli": "ble",
+            "alli": "al",
+            "entli": "ent",
+            "eli": "e",
+            "ousli": "ous",
+            "ization": "ize",
+            "ation": "ate",
+            "ator": "ate",
+            "alism": "al",
+            "iveness": "ive",
+            "fulness": "ful",
+            "ousness": "ous",
+            "aliti": "al",
+            "iviti": "ive",
+            "biliti": "ble",
+            "logi": "log"
+        },
+        step3list = {
+            "icate": "ic",
+            "ative": "",
+            "alize": "al",
+            "iciti": "ic",
+            "ical": "ic",
+            "ful": "",
+            "ness": ""
+        },
+        c = "[^aeiou]", // consonant
+        v = "[aeiouy]", // vowel
+        C = c + "[^aeiouy]*", // consonant sequence
+        V = v + "[aeiou]*", // vowel sequence
+        mgr0 = "^(" + C + ")?" + V + C, // [C]VC... is m>0
+        meq1 = "^(" + C + ")?" + V + C + "(" + V + ")?$", // [C]VC[V] is m=1
+        mgr1 = "^(" + C + ")?" + V + C + V + C, // [C]VCVC... is m>1
+        s_v = "^(" + C + ")?" + v; // vowel in stem
+    return function(w) {
         var stem, suffix, firstch, re, re2, re3, re4, origword = w;
         if (w.length < 3) {
             return w;
@@ -436,8 +417,7 @@ var stemmer = (function () {
         re2 = /^(.+?)([^s])s$/;
         if (re.test(w)) {
             w = w.replace(re, "$1$2");
-        }
-        else if (re2.test(w)) {
+        } else if (re2.test(w)) {
             w = w.replace(re2, "$1$2");
         }
         // Step 1b
@@ -450,8 +430,7 @@ var stemmer = (function () {
                 re = /.$/;
                 w = w.replace(re, "");
             }
-        }
-        else if (re2.test(w)) {
+        } else if (re2.test(w)) {
             var fp = re2.exec(w);
             stem = fp[1];
             re2 = new RegExp(s_v);
@@ -462,12 +441,10 @@ var stemmer = (function () {
                 re4 = new RegExp("^" + C + v + "[^aeiouwxy]$");
                 if (re2.test(w)) {
                     w = w + "e";
-                }
-                else if (re3.test(w)) {
+                } else if (re3.test(w)) {
                     re = /.$/;
                     w = w.replace(re, "");
-                }
-                else if (re4.test(w)) {
+                } else if (re4.test(w)) {
                     w = w + "e";
                 }
             }
@@ -514,8 +491,7 @@ var stemmer = (function () {
             if (re.test(stem)) {
                 w = stem;
             }
-        }
-        else if (re2.test(w)) {
+        } else if (re2.test(w)) {
             var fp = re2.exec(w);
             stem = fp[1] + fp[2];
             re2 = new RegExp(mgr1);
@@ -566,8 +542,7 @@ async function loadIndexFromURL(url) {
     let responsetext;
     if (response.ok) {
         responsetext = await response.text();
-    }
-    else {
+    } else {
         throw new Error(response.statusText);
     }
     let parsedResponse = JSON.parse(responsetext);
@@ -579,8 +554,7 @@ async function loadIndexFromURL(url) {
         for (let property of Object.keys(object)) {
             if (property === "id") {
                 id = object[property];
-            }
-            else {
+            } else {
                 document[property] = object[property];
             }
         }
@@ -606,8 +580,7 @@ function loadInvertedIndexFromURL(url) {
             if (lineNumber === 0) {
                 if (parseInt(line) != 1 && parseInt(line) != 2) {
                     throw "Error while parsing invinx: Invalid version, must be 1 or 2!";
-                }
-                else {
+                } else {
                     version = parseInt(line);
                 }
                 lineNumber++;
@@ -617,7 +590,7 @@ function loadInvertedIndexFromURL(url) {
             let tokenname = decodeURIComponent(cols[0]);
             cols.shift();
             if (version === 2) {
-                cols = cols.map(function (value) {
+                cols = cols.map(function(value) {
                     return value.replace("%2C", ",");
                 });
             }
