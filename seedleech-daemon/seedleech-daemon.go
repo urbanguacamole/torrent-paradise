@@ -71,7 +71,7 @@ func main() {
 				freshlimit := time.Now().Local().Add(-maxAge)
 				if minSeed != 0 {
 					var res int
-					row := db.QueryRow("SELECT count(1) FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3)", tracker, minSeed, freshlimit)
+					row := db.QueryRow("SELECT count(1) FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3", tracker, minSeed, freshlimit)
 					row.Scan(&res)
 					if res > 0 {
 						fmt.Println("Tracker " + tracker + ", seeds > " + strconv.Itoa(minSeed) + ": " + strconv.Itoa(res))
@@ -105,7 +105,7 @@ func runWorkFetcher(trackerRequests chan []string, tracker string, minseed int, 
 		if minseed != 0 {
 			rows, err = db.Query("SELECT infohash FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3 LIMIT 630", tracker, minseed, freshlimit)
 		} else {
-			time.Sleep(time.Duration(int64(rand.Intn(6000)) * int64(time.Second))) //sleep for random time between 100 mins and 0
+			time.Sleep(time.Duration(int64(rand.Intn(6000)+6000) * int64(time.Second))) //sleep for random time between 100 mins and 200 mins
 			rows, err = db.Query("SELECT infohash FROM torrent WHERE NOT EXISTS (SELECT from trackerdata WHERE infohash = torrent.infohash AND tracker = $1 AND scraped > $2) LIMIT 6300", tracker, freshlimit)
 		}
 		if err != nil {
@@ -170,13 +170,12 @@ func runPersister(trackerResponses chan trackerResponse, db *sql.DB) {
 			_, err := db.Exec("INSERT INTO trackerdata (infohash, tracker, seeders, leechers, completed, scraped) VALUES ($1, $2, $3, $4, $5, $6)", scrapeResult.Infohash, res.tracker, scrapeResult.Seeders, scrapeResult.Leechers, scrapeResult.Completed, timestamp)
 			if pgerr, ok := err.(*pq.Error); ok {
 				if pgerr.Code == "23505" {
-					//handle duplicate insert
-				} else {
-					log.Fatal(err)
-					_, err := db.Exec("UPDATE trackerdata SET seeders = $3, leechers = $4, completed = $5, scraped = $6 WHERE infohash = $1 AND trakcer = $2", scrapeResult.Infohash, res.tracker, scrapeResult.Seeders, scrapeResult.Leechers, scrapeResult.Completed, timestamp)
+					_, err := db.Exec("UPDATE trackerdata SET seeders = $3, leechers = $4, completed = $5, scraped = $6 WHERE infohash = $1 AND tracker = $2", scrapeResult.Infohash, res.tracker, scrapeResult.Seeders, scrapeResult.Leechers, scrapeResult.Completed, timestamp)
 					if err != nil {
 						log.Fatal(err)
 					}
+				} else {
+					log.Fatal(err)
 				}
 			}
 		}

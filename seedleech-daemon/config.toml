@@ -2,5 +2,4 @@ trackers = ["udp://tracker.coppersurfer.tk:6969", "udp://tracker.pirateparty.gr:
 waitTime = "500ms"
 logInterval = "5m"
 
-categories = { 0 = "1440h", 1 = "720h", 3 = "240h", 10 = "120h", 100 = "24h", 1000 = "12h", 2000 = "6h", 3000 = "3h"}
-    
+categories = { 0 = "1440h", 1 = "720h", 3 = "240h", 10 = "180h", 100 = "24h", 1000 = "10h", 2000 = "4h", 3000 = "2h"}
