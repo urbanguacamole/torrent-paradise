@@ -46,6 +46,9 @@ Run `go build` in spider/ to compile and scp the binary it to the server. You ca
 
 Run `go build` in seedleech-daemon/ to compile and scp the binary it to the server. You can use the systemd service file in `seedleech-daemon/seedleech.service`.
 
+## IPFS vs 'static'
+
+The directory website gets deployed to IPFS, static gets deployed to the server. Static calls the API, the IPFS version doesn't.
 
 # Contributing
 

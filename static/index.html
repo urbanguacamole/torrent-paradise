@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Decentralized Torrent Search site">
+    <title>Torrent Paradise: The most innovative torrent site</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/bulma.min.css">
+    <script defer src="assets/fa.js"></script>
+    <style>
+        #resultPage {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="is-light navbar-item" href="index.html">
+                <i class="fas fa-sun"></i>
+            </a>
+            <a class="navbar-item" href="about.html">
+                About
+            </a>
+            <a class="navbar-item" href="top.html">
+                Top torrents
+            </a>
+            <a class="navbar-item" href="ipfs.html">
+                IPFS
+            </a>
+            <a class="navbar-item" href="copyright.html">
+                Copyright
+            </a>
+        </div>
+    </nav>
+    <br>
+    <div id="app" class="container">
+        <div class="notification">
+            <span style="color: hsl(348, 100%, 61%);"><i class="fa fa-gift" aria-hidden="true"></i> <i class="fa fa-heart" aria-hidden="true"></i></span><br />
+            Introducing blazing fast server side search. More improvements underway. If anything is broken, hit me up at urban-guacamole (at) protonmail.com. No logs are kept, but for total privacy, use IPFS.
+          </div>
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type='text' id="searchbox" />
+            </div>
+            <div class="control">
+                <button class="button is-info" type="submit" onclick="searchTriggered()">Search</button>
+            </div>
+
+        </div>
+        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0" seamless="seamless" v-bind:src="resultPage"></iframe>
+        <p v-if="showsearchbox">Last index update: {{indexTimestamp}}</p>
+        <p v-if="showsearchbox">Torrents in index: {{entries}}</p>
+    </div>
+    <script src="bundle.js"></script>
+    <script src="assets/vue-v2.6.11.js"></script>
+    <script src="view.js"></script>

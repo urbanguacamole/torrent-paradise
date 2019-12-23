@@ -23,4 +23,9 @@ SELECT pg_size_pretty(pg_total_relation_size('"<schema>"."<table>"'));
 SELECT reltuples::bigint AS estimate FROM pg_class where relname='mytable';
 
 --- create fulltext table
-CREATE TABLE search AS select torrent.*, fresh.s as s, fresh.l as l, to_tsvector(torrent.name) as vect from torrent inner join fresh on fresh.infohash = torrent.infohash;
+DROP TABLE search;
+CREATE MATERIALIZED VIEW search AS select torrent.*, fresh.s as s, fresh.l as l, to_tsvector(replace(torrent.name, '.', ' ')) as vect from torrent inner join fresh on fresh.infohash = torrent.infohash;
+create index vect_inx on search using gin(vect);
+create unique index uniq_ih on search (infohash);
+REFRESH MATERIALIZED VIEW fresh;
+REFRESH MATERIALIZED VIEW search CONCURRENTLY;

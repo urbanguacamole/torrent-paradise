@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Decentralized Torrent Search site">
+    <title>Torrent Paradise</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="assets/bulma.min.css">
+    <script defer src="assets/fa.js"></script>
+    <style>
+        #resultPage {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar is-warning" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="is-light navbar-item" href="index.html">
+                <i class="fas fa-sun"></i>
+            </a>
+            <a class="navbar-item" href="about.html">
+                About
+            </a>
+            <a class="navbar-item" href="top.html">
+                Top torrents
+            </a>
+            <a class="navbar-item" href="ipfs.html">
+                IPFS
+            </a>
+            <a class="navbar-item" href="copyright.html">
+                Copyright
+            </a>
+        </div>
+    </nav>
+    <br>
+    <div id="app" class="container content">
+        <h1 class="title">Top torrents</h1>
+        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0" seamless="seamless" v-bind:src="resultPage"></iframe>
+        <script src="assets/vue-v2.6.11.js"></script>
+        <script src="view.js"></script>
+    </div>
+    <script>app.resultPage = "resultpage"
+
+
+        fetch("top.json").then((s) => {
+            return s.text()
+        }).then((top) => {
+            let resultPageIframe = document.getElementById("resultPage");
+            resultPageIframe.onload = () => {
+                resultPageIframe.contentWindow.postMessage({
+                    type: "results",
+                    results: top
+                }, '*');
+            }
+        })</script>
+</body>
+
+</html>
