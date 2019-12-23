@@ -15,3 +15,12 @@ CREATE MATERIALIZED VIEW fresh AS
     max(completed) AS c
    FROM trackerdata
   GROUP BY infohash;
+
+--- size of table
+SELECT pg_size_pretty(pg_total_relation_size('"<schema>"."<table>"'));
+
+--- count rows
+SELECT reltuples::bigint AS estimate FROM pg_class where relname='mytable';
+
+--- create fulltext table
+CREATE TABLE search AS select torrent.*, fresh.s as s, fresh.l as l, to_tsvector(torrent.name) as vect from torrent inner join fresh on fresh.infohash = torrent.infohash;
