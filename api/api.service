@@ -1,0 +1,13 @@
+[Unit]
+Description=Torrent Paradise API service
+Requires=postgresql
+
+[Service]
+User=nextgen
+WorkingDirectory=/home/nextgen
+ExecStart=/home/nextgen/api
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
