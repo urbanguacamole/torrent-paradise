@@ -17,7 +17,6 @@ Expecting a future where clickstream data are more and more important, because r
 - torrent size
 - session id
 - action #
-- rank #
 - screen resolution
     - expected to be critical for ranking of video
 - User Agent

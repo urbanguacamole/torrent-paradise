@@ -13,7 +13,7 @@
                     <span v-bind:title="props.row.text">{{ props.row.text }}</span>
                 </b-table-column>
                 <b-table-column field="len" label="Size">
-                    {{ props.row.len }}
+                    {{ props.row.length }}
                 </b-table-column>
                 <b-table-column field="s" label="Seed" numeric sortable>
                     {{ props.row.s }}
@@ -23,7 +23,7 @@
                 </b-table-column>
                 <b-table-column field="id" label=" " e>
                     <span class="icon">
-                        <a style="color: hsl(171, 100%, 41%)" v-bind:href="'magnet:?xt=urn:btih:' + props.row.id + '&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337'">
+                        <a style="color: hsl(171, 100%, 41%)" @click="resultClicked(props.row.id,props.row.text,props.row.s,props.row.l,props.row.len)" v-bind:href="'magnet:?xt=urn:btih:' + props.row.id + '&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337'">
                             <i class="fas fa-magnet"></i>
                         </a>
                     </span>
@@ -33,5 +33,6 @@
     </div>
     <script src="../assets/vue-v2.6.11.js"></script>
     <script src="buefy-table.js"></script>
+    <script src="platform.js"></script>
     <script src="main.js"></script>
 </body>
