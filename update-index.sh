@@ -1,5 +1,3 @@
-# This script updates the index. Testing and uploading to server/IPFS is done manually.
-
 echo "Refreshing database"
 ssh nextgen@server "psql -c 'REFRESH MATERIALIZED VIEW fresh'"
 echo "Downloading dump"
@@ -12,4 +10,6 @@ echo "Generating top torrents list"
 generate-top-torrents/generate-top-torrents > website/generated/top.json
 echo "Uploading website"
 cd website
-rsync -ar ./ root@server:/www/torrent-paradise.ml # consider using --progress
+rsync -ar ./ root@server:/www/ipfs-torrent-paradise # consider using --progress
+echo "Adding to IPFS"
+ssh root@server "bash /root/upload-website.sh"
