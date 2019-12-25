@@ -8,3 +8,4 @@ torrent_dump_full.csv.gz
 generate-top-torrents
 api/api
 *.txt
+vote-and-donate.html

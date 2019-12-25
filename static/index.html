@@ -26,13 +26,13 @@
                 About
             </a>
             <a class="navbar-item" href="top.html">
-                Top torrents
+                Top
             </a>
             <a class="navbar-item" href="ipfs.html">
                 IPFS
             </a>
-            <a class="navbar-item" href="copyright.html">
-                Copyright
+            <a class="navbar-item" href="vote-and-donate.html">
+                <b>Vote</b>&nbsp and donate
             </a>
         </div>
     </nav>
@@ -40,7 +40,7 @@
     <div id="app" class="container">
         <div class="notification">
             <span style="color: hsl(348, 100%, 61%);"><i class="fa fa-gift" aria-hidden="true"></i> <i class="fa fa-heart" aria-hidden="true"></i></span><br />
-            Introducing blazing fast server side search. More improvements underway. If anything is broken, hit me up at urban-guacamole (at) protonmail.com. No logs are kept, but for total privacy, use IPFS.
+            Introducing blazing fast server side search. More improvements underway. No logs are kept, but for total privacy, use IPFS.
           </div>
         <div class="field has-addons">
             <div class="control is-expanded">
@@ -52,8 +52,6 @@
 
         </div>
         <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0" seamless="seamless" v-bind:src="resultPage"></iframe>
-        <p v-if="showsearchbox">Last index update: {{indexTimestamp}}</p>
-        <p v-if="showsearchbox">Torrents in index: {{entries}}</p>
     </div>
     <script src="bundle.js"></script>
     <script src="assets/vue-v2.6.11.js"></script>
