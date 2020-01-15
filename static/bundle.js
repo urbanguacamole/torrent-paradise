@@ -6,7 +6,7 @@ function searchTriggered() {
 }
 
 async function searchFor(query) {
-    var url = new URL("https://torrent-paradise.ml/api/search")
+    var url = new URL(location.origin+"/api/search")
     url.searchParams.append("q",query)
     const res = await fetch(url)
     let results = await res.json();

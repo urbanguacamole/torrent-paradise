@@ -47,7 +47,7 @@ function sendTelemetry(payload){
         payload.sid = sessionid;
     }
 
-    fetch('https://torrent-paradise.ml/api/telemetry', {
+    fetch('/api/telemetry', {
         method: 'POST',
         body: JSON.stringify(payload)
     })
