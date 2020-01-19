@@ -38,10 +38,6 @@
     </nav>
     <br>
     <div id="app" class="container">
-        <div class="notification">
-            <span style="color: hsl(348, 100%, 61%);"><i class="fa fa-gift" aria-hidden="true"></i> <i class="fa fa-heart" aria-hidden="true"></i></span><br />
-            Introducing blazing fast server side search. More improvements underway. No logs are kept, but for total privacy, use IPFS.
-          </div>
         <div class="field has-addons">
             <div class="control is-expanded">
                 <input class="input" type='text' id="searchbox" />
@@ -51,7 +47,10 @@
             </div>
 
         </div>
-        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0" seamless="seamless" v-bind:src="resultPage"></iframe>
+        <iframe v-bind:style="{height: resultPageHeight + 'px'}" id="resultPage" scrolling="no" frameBorder="0"
+            seamless="seamless" v-bind:src="resultPage"></iframe>
+        <iframe data-aa="1240652" src="//acceptable.a-ads.com/1240652" scrolling="no"
+            style="border:0px; padding:0; width:100%; height:100%; overflow:hidden" allowtransparency="true"></iframe>
     </div>
     <script src="bundle.js"></script>
     <script src="assets/vue-v2.6.11.js"></script>
