@@ -27,8 +27,14 @@ func main() {
 		for _, torrent := range torrents {
 			addTorrent(db, torrent, &crawled)
 		}
-		time.Sleep(time.Minute * 30)
+		time.Sleep(time.Minute * 45)
+		go refresh(db)
 	}
+}
+
+func refresh(db *sql.DB) {
+	db.Exec("REFRESH MATERIALIZED VIEW fresh")
+	db.Exec("REFRESH MATERIALIZED VIEW CONCURRENTLY search")
 }
 
 func addTorrent(db *sql.DB, torr Torrent, crawled *map[string]bool) {
