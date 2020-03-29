@@ -1,0 +1,13 @@
+[Unit]
+Description=Automatic crawl of new torrent feeds
+Requires=postgresql
+
+[Service]
+User=nextgen
+WorkingDirectory=/home/nextgen
+ExecStart=/home/nextgen/crawl-rss
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
