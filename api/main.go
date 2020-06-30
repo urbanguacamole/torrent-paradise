@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	_ "github.com/lib/pq"
 )
@@ -59,6 +60,9 @@ func main() {
 			log.Print("/api/search received empty q argument")
 			w.WriteHeader(http.StatusBadRequest)
 			return
+		}
+		if strings.Contains(q, "preteen") {
+			w.WriteHeader(500)
 		}
 		rows, err := db.Query("select infohash, name, length, s, l from search where vect @@ plainto_tsquery($1) and copyrighted = 'f' limit 150", q)
 		if err != nil {
