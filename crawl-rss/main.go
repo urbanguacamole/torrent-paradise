@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/lib/pq"
-	_ "github.com/lib/pq"
 	"github.com/mmcdole/gofeed"
 )
 
@@ -25,9 +24,13 @@ func main() {
 	for {
 		torrents := CrawlYts()
 		for _, torrent := range torrents {
-			addTorrent(db, torrent, &crawled)
+			addTorrent(db, torrent, crawled)
 		}
-		time.Sleep(time.Minute * 45)
+		torrents = CrawlEztv()
+		for _, torrent := range torrents {
+			addTorrent(db, torrent, crawled)
+		}
+		time.Sleep(time.Minute * 60)
 		go refresh(db)
 	}
 }
@@ -37,15 +40,15 @@ func refresh(db *sql.DB) {
 	db.Exec("REFRESH MATERIALIZED VIEW CONCURRENTLY search")
 }
 
-func addTorrent(db *sql.DB, torr Torrent, crawled *map[string]bool) {
-	if !(*crawled)[string(torr.Infohash)] {
+func addTorrent(db *sql.DB, torr Torrent, crawled map[string]bool) {
+	if !(crawled[string(torr.Infohash)]) {
 		_, err := db.Exec("INSERT INTO torrent (infohash, name, length) VALUES ($1, $2, $3)", torr.Infohash, torr.Name, torr.Length)
 		if err, ok := err.(*pq.Error); ok { //dark magic
 			if err.Code != "23505" {
 				log.Fatal(err)
 			}
 		}
-		(*crawled)[torr.Infohash] = true
+		crawled[torr.Infohash] = true
 	}
 }
 
@@ -65,6 +68,24 @@ func CrawlYts() []Torrent {
 		}
 		ih, err := parseInfohashYts(item.Enclosures[0].URL)
 		torrents = append(torrents, Torrent{ih, item.Title, size})
+	}
+	return torrents
+}
+
+func CrawlEztv() []Torrent { //maybe is there some kind of interface that this can share with CrawlYts? This function has the same signature and purpose.
+	fp := gofeed.NewParser()
+	feed, err := fp.ParseURL("https://eztv.io/ezrss.xml")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var torrents []Torrent
+	for _, item := range feed.Items {
+		size, err := strconv.Atoi(item.Extensions["torrent"]["contentLength"][0].Value)
+		if err != nil {
+			log.Print(err)
+			continue
+		}
+		torrents = append(torrents, Torrent{item.Extensions["torrent"]["infoHash"][0].Value, item.Extensions["torrent"]["fileName"][0].Value, size})
 	}
 	return torrents
 }
