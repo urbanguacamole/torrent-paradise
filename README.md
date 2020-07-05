@@ -28,9 +28,9 @@ Here's what the setup looks like rn:
 
 The programs create their own tables in the DB that they need. Database name is "nextgen".
 
-What I did first after getting the server up and running was importing the TPB dump. Download https://thepiratebay.org/static/dump/csv/torrent_dump_full.csv.gz to the import-tpb-dump directory and run `go run`.
+What I did first after getting the server up and running was importing the TPB dump. This is sadly no longer possible, since TPB stopped providing the dump.
 
-There is a complete database dump available in torrentparadise-staticbackup.torrent, so you don't have to do that. This same database dump is available on https://mega.nz/#!ddESlChb!3YBqfxG-a4fwpXzPG3QsXa-C6FeQ9AbNSGXxY7W7xm4. It contains the same data as the torrent, only .xz compressed.
+There is a database dump available in torrentparadise-staticbackup.torrent. This same database dump is available on https://mega.nz/#!ddESlChb!3YBqfxG-a4fwpXzPG3QsXa-C6FeQ9AbNSGXxY7W7xm4. It contains the same data as the torrent, only .xz compressed.
 
 # Usage
 
