@@ -21,6 +21,7 @@ type Torrent struct {
 func main() {
 	db := initDb()
 	crawled := make(map[string]bool) // set to not needlessly send all torrents to db to check if we found them already
+	var i int
 	for {
 		torrents := CrawlYts()
 		for _, torrent := range torrents {
@@ -30,6 +31,16 @@ func main() {
 		for _, torrent := range torrents {
 			addTorrent(db, torrent, crawled)
 		}
+		if i%10 == 0 {
+			torrents = CrawlTPB48hTop()
+			for _, torrent := range torrents {
+				addTorrent(db, torrent, crawled)
+			}
+			if len(torrents) == 0 {
+				log.Println("weird, no torrents crawled from TPB")
+			}
+		}
+		i++
 		time.Sleep(time.Minute * 60)
 		go refresh(db)
 	}
@@ -71,6 +82,9 @@ func CrawlYts() []Torrent {
 	}
 	return torrents
 }
+
+//TODO https://rarbg.to/rssdd.php?category=2;14;15;16;17;21;22;42;18;19;41;27;28;29;30;31;32;40;23;24;25;26;33;34;43;44;45;46;47;48;49;50;51;52;54
+// ^^ rarbg w/o porn
 
 func CrawlEztv() []Torrent { //maybe is there some kind of interface that this can share with CrawlYts? This function has the same signature and purpose.
 	fp := gofeed.NewParser()

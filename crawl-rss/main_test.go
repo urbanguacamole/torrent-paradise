@@ -1,8 +1,6 @@
 package main
 
-import (
-	"testing"
-)
+import "testing"
 
 func TestCrawlYts(t *testing.T) {
 	torrents := CrawlYts()

@@ -1,5 +1,5 @@
 [Unit]
-Description=Automatic crawl of new torrent feeds
+Description=Automatic crawl of new torrent feeds. Also automatically refreshes the index every hour.
 Requires=postgresql
 
 [Service]
