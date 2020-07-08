@@ -6,7 +6,7 @@ import (
 	"log"
 
 	"github.com/lib/pq"
-	"github.com/shiyanhui/dht"
+	"github.com/urbanguacamole/dht"
 )
 
 type file struct {
