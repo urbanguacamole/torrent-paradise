@@ -7,9 +7,12 @@ import (
 	"net/http"
 )
 
-// CrawlTPB48hTop crawls https://apibay.org/precompiled/data_top100_48h.json
 func CrawlTPB48hTop() []Torrent {
 	return parseApibayJSON("https://apibay.org/precompiled/data_top100_48h.json")
+}
+
+func CrawlTPBVideoRecent() []Torrent {
+	return parseApibayJSON("https://apibay.org/q.php?q=category%3A200")
 }
 
 func parseApibayJSON(url string) []Torrent {

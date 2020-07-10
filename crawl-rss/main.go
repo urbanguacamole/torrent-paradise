@@ -31,6 +31,10 @@ func main() {
 		for _, torrent := range torrents {
 			addTorrent(db, torrent, crawled)
 		}
+		torrents = CrawlTPBVideoRecent()
+		for _, torrent := range torrents {
+			addTorrent(db, torrent, crawled)
+		}
 		if i%10 == 0 {
 			torrents = CrawlTPB48hTop()
 			for _, torrent := range torrents {
@@ -41,8 +45,8 @@ func main() {
 			}
 		}
 		i++
-		time.Sleep(time.Minute * 60)
 		go refresh(db)
+		time.Sleep(time.Minute * 60)
 	}
 }
 
@@ -53,7 +57,7 @@ func refresh(db *sql.DB) {
 
 func addTorrent(db *sql.DB, torr Torrent, crawled map[string]bool) {
 	if !(crawled[string(torr.Infohash)]) {
-		_, err := db.Exec("INSERT INTO torrent (infohash, name, length) VALUES ($1, $2, $3)", torr.Infohash, torr.Name, torr.Length)
+		_, err := db.Exec("INSERT INTO torrent (infohash, name, length) VALUES ($1, $2, $3)", strings.ToLower(torr.Infohash), torr.Name, torr.Length)
 		if err, ok := err.(*pq.Error); ok { //dark magic
 			if err.Code != "23505" {
 				log.Fatal(err)
