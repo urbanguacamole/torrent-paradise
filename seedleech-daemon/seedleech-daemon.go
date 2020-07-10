@@ -105,7 +105,7 @@ func runWorkFetcher(trackerRequests chan []string, tracker string, minseed int, 
 		if minseed != 0 {
 			rows, err = db.Query("SELECT infohash FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3 LIMIT 630", tracker, minseed, freshlimit)
 		} else {
-			time.Sleep(time.Duration(int64(rand.Intn(6000)+6000) * int64(time.Second))) //sleep for random time between 100 mins and 200 mins
+			time.Sleep(time.Duration(int64(rand.Intn(3000)) * int64(time.Second))) //sleep for random time between 0 mins and 50 mins
 			rows, err = db.Query("SELECT infohash FROM torrent WHERE NOT EXISTS (SELECT from trackerdata WHERE infohash = torrent.infohash AND tracker = $1 AND scraped > $2) LIMIT 6300", tracker, freshlimit)
 		}
 		if err != nil {
@@ -192,7 +192,7 @@ func initDb() *sql.DB {
 	_, err = db.Exec(`DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'tracker') THEN
-        CREATE TYPE tracker AS ENUM ('udp://tracker.coppersurfer.tk:6969', 'udp://exodus.desync.com:6969', 'udp://tracker.pirateparty.gr:6969');
+        CREATE TYPE tracker AS ENUM ('udp://tracker.coppersurfer.tk:6969', 'udp://exodus.desync.com:6969', 'udp://tracker.pirateparty.gr:6969','udp://tracker.opentrackr.org:1337/announce','udp://tracker.internetwarriors.net:1337/announce','udp://tracker.cyberia.is:6969/announce','udp://9.rarbg.to:2920/announce');
     END IF;
 END$$`)
 	if err != nil {
