@@ -2,4 +2,4 @@ trackers = ["udp://tracker.coppersurfer.tk:6969", "udp://tracker.leechers-paradi
 waitTime = "500ms"
 logInterval = "5m"
 
-categories = { 0 = "1440h", 1 = "720h", 3 = "240h", 10 = "180h", 100 = "24h", 1000 = "10h", 2000 = "4h", 3000 = "2h"}
+categories = { 0 = "2880h", 1 = "1440h", 3 = "720h", 10 = "96h", 60 = "48h", 100 = "24h", 500 = "8h", 1000 = "2h"}
