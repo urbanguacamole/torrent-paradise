@@ -12,7 +12,7 @@ async function searchFor(query) {
     let results = await res.json();
     if (results == null){
         console.error("No results.")
-        results = []
+        alert("No results found.")
     }
     passResultToResultpage(results)
 }
