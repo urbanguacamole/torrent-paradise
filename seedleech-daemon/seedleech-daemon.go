@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"os/signal"
 	"strconv"
@@ -105,7 +104,7 @@ func runWorkFetcher(trackerRequests chan []string, tracker string, minseed int, 
 		if minseed != 0 {
 			rows, err = db.Query("SELECT infohash FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3 LIMIT 630", tracker, minseed, freshlimit)
 		} else {
-			time.Sleep(time.Duration(int64(rand.Intn(12000)) * int64(time.Second))) //sleep for random time between 0 mins and 200 mins
+			//time.Sleep(time.Duration(int64(rand.Intn(12000)) * int64(time.Second))) //sleep for random time between 0 mins and 200 mins
 			rows, err = db.Query("SELECT infohash FROM torrent WHERE NOT EXISTS (SELECT from trackerdata WHERE infohash = torrent.infohash AND tracker = $1 AND scraped > $2) LIMIT 6300", tracker, freshlimit)
 		}
 		if err != nil {
@@ -142,6 +141,8 @@ func runScraper(trackerRequests chan []string, trackerResponses chan trackerResp
 	if err != nil {
 		log.Fatal("Error:", err)
 	}
+	success := 0 //how many times request to this tracker has succeeded
+	failure := 0 //how many times request to this tracker has failed
 	for req := range trackerRequests {
 		infohashes := make([][]byte, len(req))
 		for i, v := range req {
@@ -152,10 +153,20 @@ func runScraper(trackerRequests chan []string, trackerResponses chan trackerResp
 		}
 		res, err := s.Scrape(infohashes...)
 		if err != nil {
-			log.Println(tracker)
-			log.Println(err)
+			failure++
 		} else {
 			trackerResponses <- trackerResponse{tracker, res}
+			success++
+		}
+
+		if (failure + success) > 99 {
+			if failure > 50 {
+				log.Println("unable to communicate with tracker, " + strconv.Itoa(failure) + "reqs of " + strconv.Itoa(failure+success) + " failed")
+				log.Println(tracker)
+				time.Sleep(time.Hour)
+			}
+			failure = 0
+			success = 0
 		}
 
 		time.Sleep(conf.waitTime)
