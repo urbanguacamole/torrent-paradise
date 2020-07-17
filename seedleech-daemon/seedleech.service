@@ -7,6 +7,7 @@ User=nextgen
 WorkingDirectory=/home/nextgen
 ExecStart=/home/nextgen/seedleech-daemon
 Restart=always
+TimeoutStopSec=300
 
 [Install]
 WantedBy=multi-user.target

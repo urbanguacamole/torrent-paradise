@@ -102,10 +102,10 @@ func runWorkFetcher(trackerRequests chan []string, tracker string, minseed int, 
 		var rows *sql.Rows
 		var err error
 		if minseed != 0 {
-			rows, err = db.Query("SELECT infohash FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3 LIMIT 630", tracker, minseed, freshlimit)
+			rows, err = db.Query("SELECT infohash FROM trackerdata WHERE tracker = $1 AND seeders > $2 AND scraped < $3 LIMIT 740", tracker, minseed, freshlimit)
 		} else {
 			//time.Sleep(time.Duration(int64(rand.Intn(12000)) * int64(time.Second))) //sleep for random time between 0 mins and 200 mins
-			rows, err = db.Query("SELECT infohash FROM torrent WHERE NOT EXISTS (SELECT from trackerdata WHERE infohash = torrent.infohash AND tracker = $1 AND scraped > $2) LIMIT 6300", tracker, freshlimit)
+			rows, err = db.Query("SELECT infohash FROM torrent WHERE NOT EXISTS (SELECT from trackerdata WHERE infohash = torrent.infohash AND tracker = $1 AND scraped > $2)", tracker, freshlimit)
 		}
 		if err != nil {
 			log.Fatal(err)
@@ -129,7 +129,7 @@ func runWorkFetcher(trackerRequests chan []string, tracker string, minseed int, 
 			}
 		}
 		trackerRequests <- infohashes
-		time.Sleep(5 * time.Minute)
+		time.Sleep(time.Minute)
 	}
 }
 
