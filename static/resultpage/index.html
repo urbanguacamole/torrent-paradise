@@ -1,16 +1,16 @@
 <head>
     <link rel="stylesheet" href="buefy.min.css">
-    <script defer src="../assets/fa.js"></script>
+    <script defer src="../assets/all.min.js"></script>
 </head>
 
-<body onload="updateSize()" style="overflow: auto;">
+<body onload="updateSize()">
     <div id="app">
         <progress v-if="showProgress" class="progress is-info" v-bind:value="progress" max="100">0 %</progress>
         <b-table v-if="resultsFound" class="is-fullwidth" :data="results" default-sort="s" default-sort-direction="desc"
             :striped="true" :paginated="true" :narrowed="true">
             <template slot-scope="props">
                 <b-table-column field="text" label="Name" sortable>
-                    <span v-bind:title="props.row.text">{{ props.row.text }}</span>
+                    <span style="overflow-wrap: anywhere;word-break: break-all" v-bind:title="props.row.text">{{ props.row.text }}</span>
                 </b-table-column>
                 <b-table-column field="len" label="Size">
                     {{ props.row.length }}
