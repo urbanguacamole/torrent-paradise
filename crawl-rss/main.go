@@ -45,7 +45,7 @@ func main() {
 			}
 		}
 		i++
-		go refresh(db)
+		refresh(db)
 		time.Sleep(time.Minute * 60)
 	}
 }
