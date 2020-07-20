@@ -11,32 +11,30 @@ Maybe, open an issue. Be sure to demonstrate an effort that you tried to solve t
 # Setup
 
 Here's what the setup looks like rn:
-- VPS, Debian Stretch, 2 GB RAM
-  - PostgreSQL 9.6. pg_hba.conf contains this:
-
-    ```
-    local   all             all                                      peer
-    # IPv4 local connections:
-    host    nextgen         nextgen          localhost               md5
-    ```
-  - IPFS v0.4.18
+- VPS, Debian Buster, 4 GB RAM
   - user with username nextgen on the server
 - my laptop w/ Linux
   - Go toolchain installed
   - node v10.15 & npm
   - Python 3 (required only for index-generator/fix-metajson.py)
 
-The programs create their own tables in the DB that they need. Database name is "nextgen".
+The programs create their own tables in the DB that they need. Database name is "nextgen". You need to create the materialized views (fresh and search). You can find some useful SQL code in snippets.sql.
 
-What I did first after getting the server up and running was importing the TPB dump. This is sadly no longer possible, since TPB stopped providing the dump.
+Each of the daemons (api, crawl-rss, seedleech-daemon) is its own standalone Go package and resulting binary. You have to compile the binaries yourself. There are systemd .service files available for each of the daemons.
 
-There is a database dump available in torrentparadise-staticbackup.torrent. This same database dump is available on https://mega.nz/#!ddESlChb!3YBqfxG-a4fwpXzPG3QsXa-C6FeQ9AbNSGXxY7W7xm4. It contains the same data as the torrent, only .xz compressed.
+The torrent collection is a mashup of the (now no longer provided) TPB dumps, my own DHT spidering efforts, and [magnetico community database dumps](https://github.com/boramalper/magnetico/issues/218).
+
+The easiest way to get your own site up and running is to start with my .csv dump. It should be easy to import into any kind of system. It contains seed/leech counts too (!). If I were to import it, I'd modify import-magnetico-db.
+
+__Torrent Paradise dump__ download: [MEGA](https://mega.nz/file/IFcTBCKZ#v3OCPNeja4lRC5baccVDeTaQUE150wqqGyS6A1mxglc) [BayFiles](https://bayfiles.com/nc43i3H5oe/torrentparadise-dump-200720.csv_xz)
 
 # Usage
 
 ## Generate the index
 
 See `update-index.sh`.
+
+Generation of the IPFS index will prob take a long time, a machine with high single-core perf recommended (ipfsearch runs on node.js)
 
 ## Spider the DHT
 
@@ -45,6 +43,12 @@ Run `go build` in spider/ to compile and scp the binary it to the server. You ca
 ## Scraping trackers for seed/leech data
 
 Run `go build` in seedleech-daemon/ to compile and scp the binary it to the server. You can use the systemd service file in `seedleech-daemon/seedleech.service`.
+
+## Import a recent magnetico community dump
+
+Use sqlite3 on a the decompressed dump to generate a .csv file. Format: infohash,name,length(bytes). Optionally quoted.
+
+Then use the go binary in import-magnetico-db to do the import.
 
 ## IPFS vs 'static'
 
