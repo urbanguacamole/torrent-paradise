@@ -4,8 +4,13 @@ dump.csv
 ipfs.html
 about.html
 copyright.html
-torrent_dump_full.csv.gz
+why.html
 generate-top-torrents
+import-magnetico-db/import-magnetico-db
+crawl-rss/crawl-rss
+seedleech-daemon/seedleech-daemon
+spider/spider
+.vscode/
 api/api
 *.txt
 vote-and-donate.html

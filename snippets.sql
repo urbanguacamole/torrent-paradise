@@ -28,4 +28,6 @@ CREATE MATERIALIZED VIEW search AS select torrent.*, fresh.s as s, fresh.l as l,
 create index vect_inx on search using gin(vect);
 create unique index uniq_ih on search (infohash);
 REFRESH MATERIALIZED VIEW fresh;
-REFRESH MATERIALIZED VIEW search CONCURRENTLY;
+REFRESH MATERIALIZED VIEW CONCURRENTLY search;
+
+CREATE INDEX "fetch_work_for_seedleech" on trackerdata (tracker, seeders, scraped);
