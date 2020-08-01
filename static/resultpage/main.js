@@ -5,6 +5,11 @@ app = new Vue({
         resultsFound: false,
         showProgress: false,
         progress: 0
+    },
+    methods: {
+        urlEncode: function (input) {
+            return encodeURIComponent(input)
+        }
     }
 })
 
