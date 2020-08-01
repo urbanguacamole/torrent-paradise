@@ -1,16 +1,28 @@
 include head.html
-.container.content
-    h1 Torrent Paradise: decentralized innovative torrent site
-    ul
-        li no single point of failure: you can always run your own via #[a(href="ipfs.html") IPFS] 
-        li runs in browser, so your query never leaves your computer
-            ul
-                li based off open source code from #[a(href="https://ipfsearch.xyz") ipfsearch]
-        li seed/leech counts always up-to-date
-        li #[b no ads] if you use IPFS
-            ul
-                li this is to encourage IPFS use and help decentralize
-        li new torrents are discovered via DHT and added automagically
-        li more info at #[a(href="https://www.reddit.com/r/torrents/comments/afibhh/i_made_a_decentralized_torrent_search_site_with/") Reddit discussion]
-        li source code on #[a(href="https://github.com/urbanguacamole/torrent-paradise") GitHub]
-        li send suggestions to urban-guacamole (at) protonmail.com
+.section
+    .container.content.legible
+        .notification.is-info You are running on IPFS. The site will be slow, but resilient, ad-free and private.
+        h2 Torrent Paradise: find torrents #[i quickly, effectively and without distractions]. 
+        p #[a(href="why.html") Why] I made this?
+        h3 Features
+        ul
+            li fresh <b>and</b> rich torrent index
+                ul
+                    li new torrents identified quickly via multiple RSS feeds
+                    li obscure torrents discovered through DHT
+            li seed/leech counts constantly refreshed
+            li privacy preserving, not-in-your-face ads
+            li if you use IPFS
+                ul
+                    li no single point of failure: you can always run your own via #[a(href="ipfs.html") IPFS] 
+                    li runs in browser, so your query #[b never] leaves your computer
+                    li #[b never any ads]
+                    li based off open source code from #[a(href="https://ipfsearch.xyz") ipfsearch]
+            li #[a(href="vote-and-donate.html") donate] and vote on future features
+            li source code on #[a(href="https://github.com/urbanguacamole/torrent-paradise") GitHub]
+            li send suggestions to urban-guacamole (at) protonmail.com
+        p Want to report a copyright violation? See #[a(href="copyright.html") copyright]
+
+        h3 Omitted features
+        p I decided to omit some features on purpose. That includes categories, recent torrents, comments, torrent upload, descriptions, etc. Every feature adds maintenance burden and complexity, increasing the chance that I abandon this project and noone else will want to pick it up afterwards.
+        p My #[b focus] is simple: You get here, enter what you're looking for, pick one and you start the download. #[i No distractions].
