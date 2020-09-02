@@ -12,7 +12,7 @@
                 <b-table-column field="text" label="Name" sortable>
                     <span style="overflow-wrap: anywhere;word-break: break-all" v-bind:title="props.row.text">{{ props.row.text }}</span>
                 </b-table-column>
-                <b-table-column field="len" label="Size">
+                <b-table-column field="len" label="Size" sortable>
                     {{ props.row.length }}
                 </b-table-column>
                 <b-table-column field="s" label="Seed" numeric sortable>

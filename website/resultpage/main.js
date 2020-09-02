@@ -12,8 +12,8 @@ window.onmessage = function(e){
     if (e.data.type == "results") {
         let results = JSON.parse(e.data.results)
         app.results = results.map((result) => {
-            result.len = formatBytes(result.len)
-            return result
+           result.length = formatBytes(result.len)
+           return result
         })
         app.resultsFound = true
         setTimeout(updateSize,1)
