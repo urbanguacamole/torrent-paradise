@@ -7,8 +7,9 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"sync"
 
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
 )
 
 type Results []Result
@@ -19,6 +20,12 @@ type Result struct {
 	Len  int    `json:"len"`
 	S    int    `json:"s"`
 	L    int    `json:"l"`
+}
+
+type ingestRequest struct {
+	Ih     string
+	Name   string
+	Length int
 }
 
 func initDb() *sql.DB {
@@ -41,6 +48,8 @@ func initDb() *sql.DB {
 func main() {
 	db := initDb()
 
+	var alreadyIngested sync.Map
+
 	http.HandleFunc("/api/telemetry", func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -54,6 +63,30 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
+	// INSECURE! BE SURE TO WALL OFF THIS PROPERLY IN PROD
+	http.HandleFunc("/api/ingest", func(w http.ResponseWriter, r *http.Request) {
+		decoder := json.NewDecoder(r.Body)
+		var req ingestRequest
+		err := decoder.Decode(&req)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			log.Println(err)
+			return
+		}
+
+		_, cached := alreadyIngested.Load(req.Ih)
+		if !cached {
+			_, err = db.Exec("INSERT INTO torrent (infohash, name, length) VALUES ($1, $2, $3)", req.Ih, req.Name, req.Length)
+			if err, ok := err.(*pq.Error); ok { //dark magic
+				if err.Code != "23505" {
+					log.Println(err)
+				}
+			}
+			alreadyIngested.Store(req.Ih, true)
+		}
+		w.WriteHeader(http.StatusOK)
+	})
+
 	http.HandleFunc("/api/search", func(w http.ResponseWriter, r *http.Request) {
 		q := r.URL.Query().Get("q")
 		if len(q) == 0 {
@@ -61,10 +94,14 @@ func main() {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
-		if strings.Contains(q, "preteen") {
-			w.WriteHeader(500)
+		pedoWords := []string{"pedo", "preteen", "14yo", "13yo", "12yo", "15yo", "16yo", "17yo", "11y", "underage", "11yo", "10yo", "10y", "9yo", "mafiasex", "pedofilia", "violacion"}
+		for _, word := range pedoWords {
+			if strings.Contains(q, word) {
+				w.WriteHeader(500)
+				return
+			}
 		}
-		rows, err := db.Query("select infohash, name, length, s, l from search where vect @@ plainto_tsquery($1) and copyrighted = 'f' limit 150", q)
+		rows, err := db.Query("select infohash, name, length, s, l from search where vect @@ websearch_to_tsquery($1) and copyrighted = 'f' limit 150", q)
 		if err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusInternalServerError)
