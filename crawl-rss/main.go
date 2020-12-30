@@ -46,7 +46,7 @@ func main() {
 		}
 		i++
 		refresh(db)
-		time.Sleep(time.Minute * 60)
+		time.Sleep(time.Minute * 100)
 	}
 }
 
@@ -92,7 +92,7 @@ func CrawlYts() []Torrent {
 
 func CrawlEztv() []Torrent { //maybe is there some kind of interface that this can share with CrawlYts? This function has the same signature and purpose.
 	fp := gofeed.NewParser()
-	feed, err := fp.ParseURL("https://eztv.io/ezrss.xml")
+	feed, err := fp.ParseURL("https://eztv.re/ezrss.xml")
 	if err != nil {
 		log.Fatal(err)
 	}
