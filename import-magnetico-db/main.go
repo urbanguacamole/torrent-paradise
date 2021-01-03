@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 	"unicode/utf8"
 
@@ -61,6 +62,8 @@ func main() {
 			log.Fatal(err)
 		}
 		added := time.Unix(addedUnix, 0)
+
+		name = strings.ToLower(name)
 
 		//fmt.Printf("Ih %v name %v len %v added %v", infohash, name, length, added)
 		_, err = db.Exec("INSERT INTO torrent (infohash, name, length, added) VALUES ($1, $2, $3, $4)", infohash, name, length, added)
