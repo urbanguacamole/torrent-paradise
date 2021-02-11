@@ -101,7 +101,7 @@ func main() {
 				return
 			}
 		}
-		rows, err := db.Query("select infohash, name, length, s, l from search where vect @@ websearch_to_tsquery($1) and copyrighted = 'f' limit 150", q)
+		rows, err := db.Query("select infohash, name, length, s, l from search where vect @@ websearch_to_tsquery($1) and copyrighted = 'f' order by s desc limit 150", q)
 		if err != nil {
 			log.Print(err)
 			w.WriteHeader(http.StatusInternalServerError)
