@@ -7,11 +7,19 @@ window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
     app.resultPageHeight = event.data
 }
-searchbox = document.getElementById('searchbox')
+
+const searchbox = document.getElementById('searchbox')
 if (searchbox != null) {
     searchbox.onkeydown = function (event) {
         if (event.keyCode == 13) {
             searchTriggered()
         }
     }
+}
+
+const urlParams = new URLSearchParams(window.location.search);
+const query = urlParams.get('q');
+if (query != null) {
+    searchbox.value = query
+    searchTriggered()
 }
