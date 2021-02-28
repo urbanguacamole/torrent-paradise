@@ -1,7 +1,15 @@
+function setQueryParam(s) {
+    let params = URLSearchParams(window.location.search)
+    params.set("q", s);
+    var newRelativePathQuery = window.location.pathname + '?' + params.toString();
+    history.pushState(null, '', newRelativePathQuery);
+}
+
 function searchTriggered() {
     let searchbox = document.getElementById("searchbox");
     let query = searchbox.value
-    searchFor(query);
+    searchFor(query)
+    setQueryParam(query)
     passQueryToResultpage(query)
 }
 

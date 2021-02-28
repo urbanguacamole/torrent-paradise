@@ -186,9 +186,17 @@ async function checkIfIpfsGateway(gatewayURL) {
     }
 }
 
+function setQueryParam(s) {
+    let params = URLSearchParams(window.location.search)
+    params.set("q", s);
+    var newRelativePathQuery = window.location.pathname + '?' + params.toString();
+    history.pushState(null, '', newRelativePathQuery);
+}
+
 function searchTriggered() {
     let searchbox = document.getElementById("searchbox");
     let querytokens = searchbox.value.split(" ");
+    passQueryToResultpage(searchbox.value)
     querytokens = querytokens.map(querytoken => {
         return stemmer(querytoken);
     });
