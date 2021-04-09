@@ -35,7 +35,7 @@ func main() {
 		for _, torrent := range torrents {
 			addTorrent(db, torrent, crawled)
 		}
-		if i%10 == 0 {
+		if i%5 == 0 {
 			torrents = CrawlTPB48hTop()
 			for _, torrent := range torrents {
 				addTorrent(db, torrent, crawled)
@@ -45,7 +45,9 @@ func main() {
 			}
 		}
 		i++
-		refresh(db)
+		if i%3 == 0 {
+			refresh(db)
+		}
 		time.Sleep(time.Minute * 100)
 	}
 }
