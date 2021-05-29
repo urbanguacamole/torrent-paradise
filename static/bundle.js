@@ -1,6 +1,9 @@
 function searchTriggered() {
     let searchbox = document.getElementById("searchbox");
     let query = searchbox.value
+    let url = new URL(window.location);
+    url.hash = query;
+    window.history.pushState({}, document.title, url);
     searchFor(query);
     passQueryToResultpage(query)
 }
