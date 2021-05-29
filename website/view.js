@@ -15,3 +15,10 @@ if (searchbox != null) {
         }
     }
 }
+
+// If the URL has a hash (e.g. #ubuntu iso), search for it.
+if (window.location.hash) {
+    // `substr(1)` to trim off the leading `#`, `decodeURIComponent` to handle things like `%20` for ` `.
+    searchbox.value = decodeURIComponent(window.location.hash.substr(1));
+    searchTriggered();
+}
