@@ -8,6 +8,9 @@ WorkingDirectory=/home/nextgen
 ExecStart=/home/nextgen/api
 Restart=always
 RestartSec=30
+PrivateTmp=yes
+NoNewPrivileges=true
+PrivateDevices=yes
 
 [Install]
 WantedBy=multi-user.target
