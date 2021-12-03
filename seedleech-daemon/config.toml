@@ -1,4 +1,4 @@
-trackers = ["udp://tracker.coppersurfer.tk:6969", "udp://tracker.leechers-paradise.org:6969/announce", "udp://tracker.internetwarriors.net:1337/announce","udp://tracker.opentrackr.org:1337/announce","udp://tracker.cyberia.is:6969/announce","udp://9.rarbg.to:2920/announce"]
+trackers = ["udp://tracker.coppersurfer.tk:6969", "udp://tracker.leechers-paradise.org:6969/announce", "udp://tracker.opentrackr.org:1337/announce","udp://tracker.cyberia.is:6969/announce","udp://tracker.torrent.eu.org:451"]
 waitTime = "250ms"
 logInterval = "1h"
 
