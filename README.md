@@ -11,12 +11,14 @@ Maybe, open an issue. Be sure to demonstrate an effort that you tried to solve t
 # Setup
 
 Here's what the setup looks like rn:
-- VPS, Debian Buster, 4 GB RAM
+- VPS, Debian Bullseye, 8 GB RAM
   - user with username nextgen on the server
 - my laptop w/ Linux
   - Go toolchain installed
-  - node v10.15 & npm
+  - node & npm
   - Python 3 (required only for index-generator/fix-metajson.py)
+
+Read the server-setup.md file for more precise info.
 
 The programs create their own tables in the DB that they need. Database name is "nextgen". You need to create the materialized views (fresh and search). You can find some useful SQL code in snippets.sql.
 
