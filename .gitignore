@@ -8,7 +8,7 @@ why.html
 generate-top-torrents
 import-magnetico-db/import-magnetico-db
 crawl-rss/crawl-rss
-seedleech-daemon/seedleech-daemon
+seedleech/seedleech
 spider/spider
 .vscode/
 api/api
