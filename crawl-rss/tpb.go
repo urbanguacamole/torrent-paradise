@@ -24,8 +24,18 @@ func parseApibayJSON(url string) []Torrent {
 	defer httpresp.Body.Close()
 	body, err := ioutil.ReadAll(httpresp.Body)
 
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+
 	var resp []ApibayTorrent
 	err = json.Unmarshal(body, &resp)
+
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
 
 	var torrents []Torrent
 	for _, apibayTorr := range resp {
