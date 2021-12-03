@@ -133,5 +133,8 @@ func main() {
 		w.Write(marshaledResults)
 	})
 
-	http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":8000", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
