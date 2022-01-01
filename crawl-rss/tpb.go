@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func CrawlTPB48hTop() []Torrent {
@@ -33,8 +34,21 @@ func parseApibayJSON(url string) []Torrent {
 	err = json.Unmarshal(body, &resp)
 
 	if err != nil {
-		log.Println(err)
-		return nil
+		var respFromIdiots []ApibayTorrentTheyAreIdiots
+		err = json.Unmarshal(body, &respFromIdiots)
+		if err != nil {
+			log.Println(err)
+			return nil
+		}
+
+		for _, torrByIdiot := range respFromIdiots {
+			var transl ApibayTorrent
+			transl.Info_hash = torrByIdiot.Info_hash
+			transl.Name = torrByIdiot.Name
+			transl.Size, err = strconv.Atoi(torrByIdiot.Size)
+			transl.Added, err = strconv.Atoi(torrByIdiot.Added)
+			resp = append(resp, transl)
+		}
 	}
 
 	var torrents []Torrent
@@ -46,9 +60,15 @@ func parseApibayJSON(url string) []Torrent {
 
 // ApibayTorrent Structure returned from apibay. For unmarshaling from JSON. Not all fields that are returned from Apibay are in this struct; YAGNI
 type ApibayTorrent struct {
-	ID        int
 	Info_hash string
 	Name      string
 	Size      int
 	Added     int
+}
+
+type ApibayTorrentTheyAreIdiots struct {
+	Info_hash string
+	Name      string
+	Size      string
+	Added     string
 }
