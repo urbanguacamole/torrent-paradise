@@ -28,7 +28,11 @@ The torrent collection is a mashup of the (now no longer provided) TPB dumps, my
 
 The easiest way to get your own site up and running is to start with my .csv dump. It should be easy to import into any kind of system. It contains seed/leech counts too (!). If I were to import it, I'd modify import-magnetico-db.
 
-__Torrent Paradise dump__ download: [MEGA](https://mega.nz/file/IFcTBCKZ#v3OCPNeja4lRC5baccVDeTaQUE150wqqGyS6A1mxglc) [BayFiles](https://bayfiles.com/nc43i3H5oe/torrentparadise-dump-200720.csv_xz)
+__Torrent Paradise csv dump__: [MEGA](https://mega.nz/file/MIcgyBiL#Ptlna9zvHqo_YpHEbVHt3o2L_EYX8cGI-n8y1OHH_YA) [BayFiles](https://bayfiles.com/p1b9UfBbxd/dump.csv_xz) [IPFS](https://cloudflare-ipfs.com/ipfs/QmcsjpRsLkSojdJ19PpTYoevP8ZdeCqmtEvjqa2R28rxWs)
+
+old dump (2020): [MEGA](https://mega.nz/file/IFcTBCKZ#v3OCPNeja4lRC5baccVDeTaQUE150wqqGyS6A1mxglc) 
+
+__Torrent Paradise pg_dump__ (database): [MEGA](https://mega.nz/file/AElUWC5L#fKS5fV0CpBSBq-4khi35BntYvHuI1EBwOavsEBT-5sY) [BayFiles](https://bayfiles.com/B576U1B6x7/nextgenpostgres20220113-db_dump) 
 
 # Usage
 
