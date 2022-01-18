@@ -619,3 +619,20 @@ async function getDocumentForId(docid) {
     doc["id"] = docid;
     return inxFetcher.combinedIndex.get(docid);
 }
+
+
+function passResultToResultpage(results) {
+    let resultPageIframe = document.getElementById("resultPage");
+    resultPageIframe.contentWindow.postMessage({
+        type: "results",
+        results: JSON.stringify(results)
+    }, '*');
+}
+
+function passQueryToResultpage(query) {
+    let resultPageIframe = document.getElementById("resultPage");
+    resultPageIframe.contentWindow.postMessage({
+        type: "query",
+        query: query
+    }, '*');
+}
