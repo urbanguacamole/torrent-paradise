@@ -1,12 +1,9 @@
 # About
 ## What is this?
 
-If you don't know what Torrent Paradise is, see the [website](https://torrent-paradise.ml/about.html).
+If you don't know what Torrent Paradise/nextgen is, see the [website](https://cloudflare-ipfs.com/ipfs/QmQjsKamNFZRvCMXDvZXQmRYjsmSkmZG5pBCTY4LtMj8hs/about.html).
 
 This is a repository of all the tools I use to build and run torrent-paradise.ml. The 'code name' of the project is nextgen (next gen torrent search), so don't be surprised if it comes up somewhere.
-
-## Can you help me?
-Maybe, open an issue. Be sure to demonstrate an effort that you tried to solve the problem yourself.
 
 # Setup
 
